@@ -16,7 +16,7 @@ Hiss supports:
 
 ## Example
 
-```text
+```lisp
 >>> (defvar x 10)
 >>> (defvar y 20)
 
@@ -50,13 +50,13 @@ print(evaluate("(+ 1 2)"))
 
 Output:
 
-```text
+```lisp
 3
 ```
 
 ## Language Overview
 
-```text
+```lisp
 >>> 42
 42
 
@@ -138,7 +138,7 @@ Converts source code into tokens.
 
 Input:
 
-```text
+```lisp
 >>> (+ 1 2)
 ```
 

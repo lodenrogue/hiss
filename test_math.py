@@ -1,7 +1,7 @@
 import unittest
 from evaluate import evaluate
 
-class TestInterpreter(unittest.TestCase):
+class TestMath(unittest.TestCase):
 
     def test_eval_number(self):
         self.assertEqual(evaluate("42"), 42)

@@ -7,7 +7,7 @@ SIMPLE_EXAMPLE = "(+ 1 2.3)"
 COMPLEX_EXAMPLE = "(if (> x (+ 1.33 5.7)) (* x 2) 0)"
 SPACES_EXAMPLE = "(defvar x \"hello() 33.23 world\")"
 
-class TestInterpreter(unittest.TestCase):
+class TestParser(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):

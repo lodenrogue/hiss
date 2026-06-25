@@ -78,6 +78,11 @@ functions = {
     "-": lambda x, y: x - y,
     "*": lambda x, y: x * y,
     "/": lambda x, y: x / y,
+    ">": lambda x, y: x > y,
+    "<": lambda x, y: x < y,
+    ">=": lambda x, y: x >= y,
+    "<=": lambda x, y: x <= y,
+    "eq": lambda x, y: x == y,
     "symbol-value": symbol_value,
     "defvar": defvar
 }

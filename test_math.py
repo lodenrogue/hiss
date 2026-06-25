@@ -60,7 +60,6 @@ class TestMath(unittest.TestCase):
         evaluate("(defvar a 4)")
         evaluate("(defvar b 8)")
         evaluate("(defvar c 10)")
-        
         self.assertEqual(evaluate("(* a (+ b (- c a)))"), 56)
 
 if __name__ == "__main__":

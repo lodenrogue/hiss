@@ -6,7 +6,7 @@ def start_repl():
     print("Type exit to quit")
 
     while True:
-        exp = input("> ")
+        exp = input(">>> ")
 
         if exp == "exit":
             exit()

@@ -5,36 +5,42 @@ A Lisp interpreter written in Python.
 Hiss supports:
 
 * Arithmetic operations
-* Nested expressions
+* Comparison operators
+* Boolean values (`True` and `False`)
 * Variables
 * Symbol lookup
 * Integers and floating point numbers
 * Strings
+* Nested expressions
 * S-expression syntax
 
 ## Example
 
-```lisp
-(+ 1 2)
-=> 3
+```text
+>>> (defvar x 10)
+>>> (defvar y 20)
 
-(* 3 (+ 4 (- 13 6)))
-=> 33
+>>> (* x 3)
+30
+
+>>> (< x y)
+True
+
+>>> (eq x y)
+False
 ```
 
 ## Usage
 
 ### Repl
 
-To start the repl you can run:
+Start the REPL:
 
 ```bash
 python hiss.py
 ```
 
-### Use from code
-
-To use hiss from Python code you can do:
+### Use from Code
 
 ```python
 from evaluate import evaluate
@@ -50,80 +56,77 @@ Output:
 
 ## Language Overview
 
-### Numbers and Strings
-
-```lisp
+```text
+>>> 42
 42
 
+>>> 3.14159
 3.14159
 
+>>> "Hello, world!"
 "Hello, world!"
 
-"hello() 33.23 world"
-```
+>>> (+ 1 2)
+3
 
-### Arithmetic
+>>> (- 10 3)
+7
 
-```lisp
-(+ 1 2)
-=> 3
+>>> (* 4 5)
+20
 
-(- 10 3)
-=> 7
+>>> (/ 20 4)
+5
 
-(* 4 5)
-=> 20
+>>> (+ 1 (+ 2 3))
+6
 
-(/ 20 4)
-=> 5
+>>> (defvar x 10)
+10
 
-(+ 1 (+ 2 3))
-=> 6
+>>> (defvar y 20)
+20
 
-(* (* 3 4) 6)
-=> 72
-```
+>>> x
+10
 
-### Variables
+>>> (symbol-value 'x)
+10
 
-```lisp
-(defvar x 10)
+>>> (> y x)
+True
 
-x
-=> 10
+>>> (< x y)
+True
 
-(symbol-value 'x)
-=> 10
+>>> (>= x 10)
+True
+
+>>> (<= x 5)
+False
+
+>>> (eq x y)
+False
+
+>>> (eq (< x y) (> y x))
+True
 ```
 
 ## Built-in Functions
 
-| Function       | Description               |
-| -------------- | ------------------------- |
-| `+`            | Addition                  |
-| `-`            | Subtraction               |
-| `*`            | Multiplication            |
-| `/`            | Division                  |
-| `defvar`       | Define a variable         |
+| Function | Description |
+|----------|-------------|
+| `+` | Addition |
+| `-` | Subtraction |
+| `*` | Multiplication |
+| `/` | Division |
+| `>` | Greater than |
+| `<` | Less than |
+| `>=` | Greater than or equal |
+| `<=` | Less than or equal |
+| `eq` | Equality comparison |
+| `defvar` | Define a variable |
 | `symbol-value` | Return a variable's value |
-
-## Example Session
-
-```lisp
-(defvar price 15)
-(defvar quantity 3)
-
-(* price quantity)
-=> 45
-
-(defvar greeting "Hello, world!")
-
-(symbol-value 'greeting)
-=> "Hello, world!"
-
-(* 3 (+ 4 (- 13 6)))
-=> 33
-```
 
 ## Architecture
 
@@ -133,13 +136,13 @@ The interpreter consists of three stages.
 
 Converts source code into tokens.
 
-Example:
+Input:
 
-```lisp
-(+ 1 2)
+```text
+>>> (+ 1 2)
 ```
 
-Produces:
+Output:
 
 ```python
 ['(', '+', '1', '2', ')']
@@ -149,7 +152,7 @@ Produces:
 
 Converts tokens into an Abstract Syntax Tree (AST).
 
-Example:
+Output:
 
 ```python
 ["+", 1, 2]
@@ -178,11 +181,8 @@ python test_variables.py
 
 ## Current Limitations
 
-* No booleans
 * No conditionals (`if`)
-* No comparison operators (`>`, `<`, `=`, etc.)
 * No user-defined functions
 * No lists
-* No quoting
 * No lexical scope
-* No error handling for malformed programs
+* Limited error handling

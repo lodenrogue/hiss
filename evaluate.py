@@ -45,7 +45,7 @@ def __should_not_evaluate(node):
 
         
 def __is_special_form(symbol):
-    return symbol in ["defvar"]
+    return symbol in ["defvar", "if"]
 
 
 def is_string(x):
@@ -56,21 +56,40 @@ def is_number(x):
     return isinstance(x, (int, float))
 
 
+def doif(cond, dothen, doelse):
+    cond_value = __evaluate_node(cond)
+    cond_bool = False if cond_value is False or cond_value == "False" else True
+    return dothen if cond_bool != False else doelse
+
+
 def symbol_value(x):
     if x.startswith("'"):
         x = x[1:]
 
-    if x in variables:
-        return variables[x]
+    if x in variables.data:
+        return variables.data[x]
     else:
         return None
 
 
 def defvar(name, value):
-    variables[name] = value
+    variables.data[name] = value
 
 
-variables = {}
+class Variables(dict):
+    def __init__(self):
+        self.data = self.__create_init_values()
+
+    def __create_init_values(self):
+        return {
+            "False": False
+        }
+
+    def clear(self):
+        self.data = self.__create_init_values()
+
+
+variables = Variables()
 
 functions = {
     "+": lambda x, y: x + y,
@@ -82,7 +101,7 @@ functions = {
     ">=": lambda x, y: x >= y,
     "<=": lambda x, y: x <= y,
     "eq": lambda x, y: x == y,
+    "if": lambda cond, dothen, doelse: doif(cond, dothen, doelse),
     "symbol-value": symbol_value,
     "defvar": defvar
 }
-

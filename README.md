@@ -12,6 +12,7 @@ Hith supports:
 * Integers and floating point numbers
 * Strings
 * Nested expressions
+* Conditionals (`if`)
 * S-expression syntax
 
 ## Why the name Hith?
@@ -29,6 +30,9 @@ It sounds like a snake hissing with a lisp. :)
 
 >>> (< x y)
 True
+
+>>> (if (< x y) "smaller" "larger")
+"smaller"
 
 >>> (eq x y)
 False
@@ -114,6 +118,15 @@ False
 
 >>> (eq (< x y) (> y x))
 True
+
+>>> (if True 1 2)
+1
+
+>>> (if False 1 2)
+2
+
+>>> (if (< x y) (+ x y) (- x y))
+30
 ```
 
 ## Built-in Functions
@@ -129,6 +142,7 @@ True
 | `>=` | Greater than or equal |
 | `<=` | Less than or equal |
 | `eq` | Equality comparison |
+| `if` | Conditional expression |
 | `defvar` | Define a variable |
 | `symbol-value` | Return a variable's value |
 
@@ -185,7 +199,6 @@ python test_variables.py
 
 ## Current Limitations
 
-* No conditionals (`if`)
 * No user-defined functions
 * No lists
 * No lexical scope

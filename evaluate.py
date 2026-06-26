@@ -120,6 +120,3 @@ class Env:
 
     def clear_variables(self):
         self.variables.clear()
-
-
-variables = Variables()

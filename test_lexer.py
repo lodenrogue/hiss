@@ -27,5 +27,11 @@ class TestLexer(unittest.TestCase):
     def test_lexer_with_spaces(self):
         self.assertEqual(self.lexer.tokenize(SPACES_EXAMPLE), ["(", "defvar", "x", "\"hello() 33.23 world\"", ")"])
 
+    def test_lexer_newlines(self):
+        self.assertEqual(self.lexer.tokenize("(+\n4 2)"), ["(", "+", "4", "2", ")"])
+
+    def test_lexer_tabs(self):
+        self.assertEqual(self.lexer.tokenize("(+\t4 2)"), ["(", "+", "4", "2", ")"])
+
 if __name__ == "__main__":
     unittest.main()

@@ -6,12 +6,12 @@ class Lexer:
         in_string = False
 
         for c in string:
-            if c in "() " and not in_string:
+            if (c in "()" or c.isspace()) and not in_string:
                 if collector != "":
                     tokens.append(collector)
                     collector = ""
 
-                if c != " ":
+                if not c.isspace():
                     tokens.append(c)
 
             elif c == "\"":

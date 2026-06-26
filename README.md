@@ -40,7 +40,7 @@ False
 
 ## Usage
 
-### Repl
+### REPL
 
 Start the REPL:
 
@@ -84,16 +84,16 @@ Output:
 20
 
 >>> (/ 20 4)
-5
+5.0
 
 >>> (+ 1 (+ 2 3))
 6
 
 >>> (defvar x 10)
-10
+x
 
 >>> (defvar y 20)
-20
+y
 
 >>> x
 10
@@ -142,9 +142,9 @@ True
 | `>=` | Greater than or equal |
 | `<=` | Less than or equal |
 | `eq` | Equality comparison |
-| `if` | Conditional expression |
-| `defvar` | Define a variable |
-| `symbol-value` | Return a variable's value |
+| `if` | Conditional expression (special form) |
+| `defvar` | Define a variable in the current environment |
+| `symbol-value` | Return the value of a symbol |
 
 ## Architecture
 
@@ -178,7 +178,12 @@ Output:
 
 ### Evaluator
 
-Recursively evaluates the AST and executes functions.
+Recursively evaluates the AST. Special forms (`if` and `defvar`)
+receive their arguments unevaluated, while normal functions evaluate
+all arguments before invocation.
+
+Evaluation happens within an `Env` object, allowing environments to be
+nested through parent environments.
 
 ## Running Tests
 

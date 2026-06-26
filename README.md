@@ -51,9 +51,13 @@ python hith.py
 ### Use from Code
 
 ```python
-from evaluate import evaluate
+from evaluate import Evaluator, Env, Variables
 
-print(evaluate("(+ 1 2)"))
+variables = Variables()
+env = Env(variables=variables, parent=None)
+evaluator = Evaluator(env)
+
+print(evaluator.evaluate("(+ 1 2)"))
 ```
 
 Output:

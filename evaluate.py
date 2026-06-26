@@ -109,11 +109,10 @@ class Env:
 
         if symbol in self.variables.data:
             return self.variables.data[symbol]
+        elif self.parent:
+            return self.parent.symbol_value(symbol)
         else:
-            if self.parent:
-                return self.parent.symbol_value(symbol)
-            else:
-                return None
+            return None
 
     def defvar(self, name, value):
         self.variables.data[name] = value

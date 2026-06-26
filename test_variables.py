@@ -24,5 +24,8 @@ class TestVariables(unittest.TestCase):
         evaluate(f"(defvar x {value})")
         self.assertEqual(evaluate("(symbol-value 'x)"), value)
 
+    def test_return_variable_name(self):
+        self.assertEqual(evaluate("(defvar test 10)"), "test")
+
 if __name__ == "__main__":
     unittest.main()

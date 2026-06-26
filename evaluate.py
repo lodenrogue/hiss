@@ -77,6 +77,7 @@ def symbol_value(x):
 
 def defvar(name, value):
     variables.data[name] = value
+    return name
 
 
 class Variables(dict):

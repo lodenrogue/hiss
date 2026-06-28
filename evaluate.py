@@ -19,10 +19,10 @@ class Evaluator:
             ">=": lambda x, y: x >= y,
             "<=": lambda x, y: x <= y,
             "eq": lambda x, y: x == y,
-            "if": lambda cond, dothen, doelse: self.doif(cond, dothen, doelse),
+            "if": self.doif,
             "symbol-value": self.env.symbol_value,
-            "setq": self.env.defvar,
-            "defvar": self.env.defvar
+            "setq": self.defvar,
+            "defvar": self.defvar
         }
 
 
@@ -84,6 +84,10 @@ class Evaluator:
         else:
             return self.evaluate_node(doelse)
 
+    def defvar(self, name, value):
+        self.env.variables.data[name] = self.evaluate_node(value)
+        return name
+
 
 class Variables():
     def __init__(self):
@@ -115,9 +119,6 @@ class Env:
         else:
             return None
 
-    def defvar(self, name, value):
-        self.variables.data[name] = value
-        return name
 
     def clear_variables(self):
         self.variables.clear()

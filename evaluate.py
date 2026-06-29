@@ -7,7 +7,7 @@ class Evaluator:
     def __init__(self):
         self.lexer = Lexer()
         self.parser = Parser()
-        self.global_env = Env(Variables(), Functions(), parent=None)
+        self.global_env = Env(Variables(), BuiltInFunctions(), parent=None)
 
 
 
@@ -40,6 +40,8 @@ class Evaluator:
             return self.symbol_value(*tail, env)
         elif head == "if":
             return self.doif(*tail, env)
+        elif head == "defun":
+            return self.defun(*tail, env)
 
 
     def is_quoted(self, node):
@@ -47,7 +49,7 @@ class Evaluator:
 
         
     def is_special_form(self, symbol):
-        return symbol in ["defvar", "setq", "symbol-value", "if"]
+        return symbol in ["defvar", "setq", "symbol-value", "if", "defun"]
 
 
     def is_string(self, x):
@@ -76,6 +78,11 @@ class Evaluator:
             return self.evaluate_node(doelse, env)
 
 
+    def defun(self, name, params, body, env):
+        env.functions.data[name] = Function(self, params, body, env)
+        return name
+        
+
 class Variables:
     def __init__(self):
         self.data = self.__create_init_values()
@@ -87,7 +94,13 @@ class Variables:
         }
 
 
-class Functions:
+class FunctionScope:
+
+    def __init__(self):
+        self.data = {}
+    
+
+class BuiltInFunctions(FunctionScope):
 
     def __init__(self):
         self.data = self.__create_init_values()
@@ -133,3 +146,18 @@ class Env:
         else:
             return None
 
+
+class Function:
+
+    def __init__(self, evaluator, params, body, env):
+        self.evaluator = evaluator
+        self.params = params
+        self.body = body
+        self.env = env
+
+
+    def __call__(self, *args):
+        variables = Variables()
+        variables.data.update(zip(self.params, args))
+        return self.evaluator.evaluate_node(self.body, Env(variables, FunctionScope(), parent=self.env))
+            

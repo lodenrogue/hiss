@@ -1,7 +1,6 @@
 from evaluate import Evaluator, Env, Variables
 
-env = Env(variables=Variables(), parent=None)
-evaluate = Evaluator(env).evaluate
+evaluate = Evaluator().evaluate
 
 
 def start_repl():

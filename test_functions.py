@@ -23,6 +23,13 @@ class TestFunctions(unittest.TestCase):
 
         self.assertEqual(self.evaluate("(multi-expressions 2 3)"), 18)
 
+    def test_nested_functions(self):
+        self.evaluate("""(defun outer-func (x)
+                           (defun inner-func (x) (+ x 1))
+                           (+ x (inner-func 10)))""")
+
+        self.assertEqual(self.evaluate("(outer-func 5)"), 16)
+
 
 if __name__ == "__main__":
     unittest.main()

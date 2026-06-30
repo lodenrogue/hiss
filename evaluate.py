@@ -19,17 +19,21 @@ class Evaluator:
         if self.is_string(node) or self.is_number(node) or self.is_quoted(node):
             return node
 
-        elif isinstance(node, list):
-            head = self.evaluate_node(node[0], env) if isinstance(node[0], list) else node[0]
-            
-            if self.is_special_form(head):
-                return self.handle_special_form(head, node[1:], env)
-            else:
-                tail = [self.evaluate_node(n, env) for n in node[1:]]
-                function = env.function(head)
-                return function(*tail)
-        else:
+        if not isinstance(node, list):
             return env.symbol_value(node)
+
+        raw_head, *raw_args = node
+        head = self.evaluate_node(raw_head, env) if isinstance(raw_head, list) else raw_head
+
+        if self.is_special_form(head):
+            return self.handle_special_form(head, raw_args, env)
+
+        function = env.function(head)
+        if function == None:
+            raise UndefinedFunctionException(f'Function with name {head} is undefined')
+
+        evaluated_args = [self.evaluate_node(n, env) for n in raw_args]
+        return function(*evaluated_args)
 
 
     def handle_special_form(self, head, tail, env):
@@ -167,3 +171,7 @@ class Function:
 
         return result
             
+
+class UndefinedFunctionException(Exception):
+    """Raised when trying to access an undefined function"""
+    pass

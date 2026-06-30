@@ -1,5 +1,5 @@
 import unittest
-from evaluate import Evaluator
+from evaluate import Evaluator, UndefinedFunctionException
 
 class TestFunctions(unittest.TestCase):
 
@@ -29,6 +29,15 @@ class TestFunctions(unittest.TestCase):
                            (+ x (inner-func 10)))""")
 
         self.assertEqual(self.evaluate("(outer-func 5)"), 16)
+
+    def test_function_scope(self):
+        # Nested functions should not be visible from global scope
+        self.evaluate("""(defun outer-func (n)
+                           (defun inner-func (x) (+ x n))
+                           (inner-func 5))""")
+
+        with self.assertRaises(UndefinedFunctionException):
+            self.evaluate("(inner-func 10)")
 
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@ class TestVariables(unittest.TestCase):
         self.evaluate = Evaluator().evaluate
 
     def test_undefined_variable(self):
-        self.assertEqual(self.evaluate("(symbol-value 'x)"), None)
+        self.assertEqual(self.evaluate("(symbol-value (quote x))"), None)
 
     def test_defvar_variable_value(self):
         value = 20
@@ -17,12 +17,12 @@ class TestVariables(unittest.TestCase):
     def test_defvar_numeric_variable(self):
         value = 10
         self.evaluate(f"(defvar x {value})")
-        self.assertEqual(self.evaluate("(symbol-value 'x)"), value)
+        self.assertEqual(self.evaluate("(symbol-value (quote x))"), value)
 
     def test_defvar_string_variable(self):
         value = "\"Hello, world!\""
         self.evaluate(f"(defvar x {value})")
-        self.assertEqual(self.evaluate("(symbol-value 'x)"), value)
+        self.assertEqual(self.evaluate("(symbol-value (quote x))"), value)
 
     def test_defvar_return_variable_name(self):
         self.assertEqual(self.evaluate("(defvar test 10)"), "test")
@@ -35,12 +35,12 @@ class TestVariables(unittest.TestCase):
     def test_setq_numeric_variable(self):
         value = 10
         self.evaluate(f"(setq x {value})")
-        self.assertEqual(self.evaluate("(symbol-value 'x)"), value)
+        self.assertEqual(self.evaluate("(symbol-value (quote x))"), value)
 
     def test_setq_string_variable(self):
         value = "\"Hello, world!\""
         self.evaluate(f"(setq x {value})")
-        self.assertEqual(self.evaluate("(symbol-value 'x)"), value)
+        self.assertEqual(self.evaluate("(symbol-value (quote x))"), value)
 
     def test_setq_return_variable_name(self):
         self.assertEqual(self.evaluate("(setq test 10)"), "test")

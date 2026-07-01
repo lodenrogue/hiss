@@ -125,13 +125,13 @@ y
 >>> x
 10
 
->>> (symbol-value 'x)
+>>> (symbol-value (quote x))
 10
 
 >>> (setq z 40)
 z
 
->>> (symbol-value 'z)
+>>> (symbol-value (quote z))
 40
 ```
 

@@ -41,16 +41,24 @@ class Evaluator:
 
 
     def handle_special_form(self, head, tail, env):
+        if head == "quote":
+            return self.quote(tail[0])
+
         if head == "defvar" or head == "setq":
             return self.defvar(*tail, env)
+
         if head == "symbol-value":
             return self.symbol_value(*tail, env)
+
         elif head == "if":
             return self.doif(*tail, env)
+
         elif head == "defun":
             return self.defun(name=tail[0], params=tail[1], body=tail[2:], env=env)
+
         elif head == "message":
             return self.message(*tail, env)
+
         elif head == "length":
             return self.length(*tail, env=env)
 
@@ -61,6 +69,7 @@ class Evaluator:
         
     def is_special_form(self, symbol):
         return symbol in [
+            "quote",
             "defvar",
             "setq",
             "symbol-value",
@@ -77,6 +86,10 @@ class Evaluator:
 
     def is_number(self, x):
         return isinstance(x, (int, float))
+
+
+    def quote(self, arg):
+        return arg
 
 
     def defvar(self, name, value, env):
@@ -109,14 +122,13 @@ class Evaluator:
 
 
     def length(self, *args, env):
-        if args[0] == "'":
-            # return length of quoted list
-            return len(args[1])
-        else:
-            value = self.evaluate_node(args[0], env)
-            # 2 is the length of the two enclosing quote marks
-            return len(value) - 2
-        
+        value = self.evaluate_node(args[0], env)
+
+        if isinstance(value, list):
+            return len(value)
+
+        return len(value) - 2
+
 
 class Variables:
     def __init__(self):
@@ -163,9 +175,6 @@ class Env:
         self.parent = parent
 
     def symbol_value(self, symbol):
-        if symbol.startswith("'"):
-            symbol = symbol[1:]
-
         if symbol in self.variables.data:
             return self.variables.data[symbol]
         elif self.parent:
@@ -189,7 +198,6 @@ class Function:
         self.params = params
         self.body = body
         self.env = env
-
 
     def __call__(self, *args):
         variables = Variables()

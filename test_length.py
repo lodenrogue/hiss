@@ -17,7 +17,7 @@ class TestLength(unittest.TestCase):
 
 
     def test_list_length(self):
-        self.assertEqual(self.evaluate("(length '(test 123))"), 2)
+        self.assertEqual(self.evaluate("(length (quote (test 123)))"), 2)
 
 
 if __name__ == "__main__":

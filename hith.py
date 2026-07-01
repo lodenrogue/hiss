@@ -1,6 +1,14 @@
+import sys
+import os
+import contextlib
 from evaluate import Evaluator, Env, Variables
 
 evaluate = Evaluator().evaluate
+
+
+def run_script(path):
+    with open(path, "r") as f:
+        evaluate(f.read())
 
 
 def start_repl():
@@ -14,10 +22,18 @@ def start_repl():
             if exp == "exit":
                 exit()
             else:
-                print(evaluate(exp))
+                # suppress prints from evaluation
+                with contextlib.redirect_stdout(open(os.devnull, 'w')):
+                    result = evaluate(exp)
+
+                # print results here
+                print(result)
         except Exception as e:
             print(e)
 
 
 if __name__ == "__main__":
-    start_repl()
+    if len(sys.argv) > 1:
+        run_script(sys.argv[1])
+    else:
+        start_repl()

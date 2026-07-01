@@ -19,7 +19,7 @@ class Parser:
             else:
                 current_node.data.append(token)
 
-        return self.__unwrap_node(tree)[0]
+        return self.__unwrap_node(tree)
 
     
     def __atomize(self, token):

@@ -12,7 +12,11 @@ class Evaluator:
 
     def evaluate(self, exp):
         ast = self.parser.build_ast(self.lexer.tokenize(exp))
-        return self.evaluate_node(ast, self.global_env)
+
+        for node in ast:
+            result = self.evaluate_node(node, self.global_env)
+
+        return result
 
 
     def evaluate_node(self, node, env):
@@ -45,6 +49,8 @@ class Evaluator:
             return self.doif(*tail, env)
         elif head == "defun":
             return self.defun(name=tail[0], params=tail[1], body=tail[2:], env=env)
+        elif head == "message":
+            return self.message(*tail, env)
 
 
     def is_quoted(self, node):
@@ -52,7 +58,7 @@ class Evaluator:
 
         
     def is_special_form(self, symbol):
-        return symbol in ["defvar", "setq", "symbol-value", "if", "defun"]
+        return symbol in ["defvar", "setq", "symbol-value", "if", "defun", "message"]
 
 
     def is_string(self, x):
@@ -84,6 +90,11 @@ class Evaluator:
     def defun(self, name, params, body, env):
         env.functions.data[name] = Function(self, params, body, env)
         return name
+
+    def message(self, body, env):
+        string = self.evaluate_node(body, env)
+        print(string)
+        return string
         
 
 class Variables:

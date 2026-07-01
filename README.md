@@ -16,6 +16,8 @@ Hith supports:
 * User-defined functions (`defun`)
 * Lexical scoping
 * S-expression syntax
+* Printing to standard out
+* Running scripts
 
 ## Why the name Hith?
 
@@ -40,6 +42,9 @@ True
 
 >>> (square 5)
 25
+
+>>> (message "hello")
+"hello"
 ```
 
 ## Usage
@@ -50,6 +55,12 @@ Start the REPL:
 
 ```bash
 python hith.py
+```
+
+### Run a hith script:
+
+```bash
+python hith.py script
 ```
 
 ### Use from Code
@@ -122,6 +133,13 @@ z
 
 >>> (symbol-value 'z)
 40
+```
+
+### Printing
+
+```lisp
+>>> (message "hello")
+"hello"
 ```
 
 ### Comparisons

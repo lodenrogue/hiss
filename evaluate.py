@@ -177,7 +177,8 @@ class BuiltInFunctions(FunctionScope):
             "<=": lambda x, y: x <= y,
             "eq": lambda x, y: x == y,
             "nth": self.nth,
-            "exit": lambda: exit()
+            "exit": lambda: exit(),
+            "file-read-lines": self.file_read_lines
         }
 
 
@@ -186,6 +187,12 @@ class BuiltInFunctions(FunctionScope):
             return items[index]
 
         return None
+
+    def file_read_lines(self, path):
+        # remove the surrounding quotes
+        path = path[1:-1]
+        with open(path, "r") as f:
+            return f.read().splitlines()
 
 
 class Env:

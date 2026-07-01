@@ -16,8 +16,8 @@ class TestLength(unittest.TestCase):
         self.assertEqual(self.evaluate("(length x)"), 5)
 
 
-    # def test_list_length(self):
-    #     self.assertEqual(self.evaluate("(length '(test 123))"), 2)
+    def test_list_length(self):
+        self.assertEqual(self.evaluate("(length '(test 123))"), 2)
 
 
 if __name__ == "__main__":

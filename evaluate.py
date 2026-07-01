@@ -52,7 +52,7 @@ class Evaluator:
         elif head == "message":
             return self.message(*tail, env)
         elif head == "length":
-            return self.length(*tail, env)
+            return self.length(*tail, env=env)
 
 
     def is_quoted(self, node):
@@ -108,16 +108,14 @@ class Evaluator:
         return string
 
 
-    def length(self, arg, env):
-        value = self.evaluate_node(arg, env)
-
-        if self.is_string(value):
+    def length(self, *args, env):
+        if args[0] == "'":
+            # return length of quoted list
+            return len(args[1])
+        else:
+            value = self.evaluate_node(args[0], env)
             # 2 is the length of the two enclosing quote marks
             return len(value) - 2
-
-        # TODO: length of lists
-        return -1
-    
         
 
 class Variables:

@@ -6,8 +6,10 @@ from evaluate import Evaluator, Env, Variables
 evaluate = Evaluator().evaluate
 
 
-def run_script(path):
+def run_script(path, arg_list):
     with open(path, "r") as f:
+        args = " ".join(arg_list)
+        evaluate(f'(defvar command-line-args (quote ({args})))')
         evaluate(f.read())
 
 
@@ -34,6 +36,6 @@ def start_repl():
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        run_script(sys.argv[1])
+        run_script(sys.argv[1], sys.argv[1:])
     else:
         start_repl()

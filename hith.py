@@ -4,8 +4,8 @@ evaluate = Evaluator().evaluate
 
 
 def start_repl():
-    print("Welcome to Hiss. A lisp written in Python.")
-    print("Type exit to quit")
+    print("Welcome to Hith. A lisp written in Python.")
+    print("Type exit to quit.")
 
     while True:
         try:
